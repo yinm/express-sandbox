@@ -1,7 +1,18 @@
-// 2nd
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize('NodeTest', 'root', 'password', { dialect: 'mysql' })
-sequelize.query('select * from test_table').spread((results, metadata) => {
-  console.log(results)
-  sequelize.close()
+const TestTable = sequelize.define('test_table', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true
+  },
+  name: {
+    type: Sequelize.STRING
+  }
+}, {
+  freezeTableName: true,
+  timestamps: false
+})
+
+TestTable.findAll().then(data => {
+  console.log(data)
 })
