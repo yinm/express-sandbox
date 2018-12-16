@@ -1,8 +1,19 @@
 const express = require('express')
 const app = express()
 
+const mysql = require('mysql2')
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'NodeTest'
+})
+
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  connection.query('select * from test_table', (error, results, fields) => {
+    if (error) throw error
+    res.send(results[0])
+  })
 })
 
 app.listen(3000, () => {
